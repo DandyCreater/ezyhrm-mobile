@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1032514990058",
+    "project_id": "ezyhr-mobile-application",
+    "storage_bucket": "ezyhr-mobile-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032514990058:android:ae0046441bd7123cd8cc93",
+        "android_client_info": {
+          "package_name": "com.example.flutter_ci_cd"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMSn0mPAsWuNxYgxqDqdusGFPqIy-99j4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032514990058:android:368f4c786a789cded8cc93",
+        "android_client_info": {
+          "package_name": "com.ezyhr.ezyhr_mobile_apps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMSn0mPAsWuNxYgxqDqdusGFPqIy-99j4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
