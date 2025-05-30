@@ -1,15 +1,17 @@
 import 'package:dio/dio.dart';
-import 'package:ezyhr_mobile_apps/shared/services/base_service.dart';
-import 'package:ezyhr_mobile_apps/module/widget/common_widget.dart';
-import 'package:ezyhr_mobile_apps/shared/constant/api_constant.dart';
 import 'package:ezyhr_mobile_apps/module/leave_request/request/employee_leave_balance_request.dart';
-import 'package:ezyhr_mobile_apps/module/leave_request/response/employee_leave_balance_response.dart';
 import 'package:ezyhr_mobile_apps/module/leave_request/request/employee_leave_request.dart';
+import 'package:ezyhr_mobile_apps/module/leave_request/response/employee_leave_balance_response.dart';
 import 'package:ezyhr_mobile_apps/module/leave_request/response/employee_leave_response.dart';
 import 'package:ezyhr_mobile_apps/module/leave_request/response/leave_balance_prorate_response.dart';
 import 'package:ezyhr_mobile_apps/module/leave_request/response/leave_balance_response.dart';
 import 'package:ezyhr_mobile_apps/module/leave_request/response/leave_type_response.dart';
 import 'package:ezyhr_mobile_apps/module/leave_request/response/update_leave_response.dart';
+import 'package:ezyhr_mobile_apps/module/widget/common_widget.dart';
+import 'package:ezyhr_mobile_apps/shared/constant/api_constant.dart';
+import 'package:ezyhr_mobile_apps/shared/services/base_service.dart';
+
+import 'leave_detail/leave_detail_request.dart';
 
 final dio = Dio();
 
@@ -91,6 +93,34 @@ class LeaveRequestService {
       showErrorMessage: false,
     );
     return response;
+  }
+
+  Future<void> employeeLeaveDetail(
+      LeaveDetailRequest leaveDetailRequest) async {
+    try {
+      await _baseService.post(
+        '/api/EmployeeLeaveDetail',
+        body: leaveDetailRequest.toJson(),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        responseDecoder: (dynamic response) {
+          try {
+            print('response @ employeeLeavetDetail : $response');
+            // return
+            // EmployeeLeaveResponse.fromJson(response);
+          } catch (e) {
+            print('error @ createLeaveRequest : $e');
+            CommonWidget.showErrorNotif('Not enough leave balance');
+          }
+        },
+        showErrorMessage: false,
+      );
+    } catch (e) {
+      print("Error req=> $e");
+    }
+
+    // return response;
   }
 
   Future<EmployeeLeaveBalanceResponse> getEmployeeLeaveBalance(

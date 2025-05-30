@@ -195,9 +195,10 @@ class SessionService extends GetxService {
     var dio = Dio();
     var response = await dio.get(imageUrl,
         options: Options(responseType: ResponseType.bytes));
+
     Directory appDocDir = await getTemporaryDirectory();
-    String path =
-        '${appDocDir.path}/${Uuid().v4()}.${imageUrl.split('.').last}';
+    String extension = imageUrl.split('?').first.split('.').last;
+    String path = '${appDocDir.path}/${Uuid().v4()}.$extension';
 
     File file = File(path);
     await file.writeAsBytes(response.data);

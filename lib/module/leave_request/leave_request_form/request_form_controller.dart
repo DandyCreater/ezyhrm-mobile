@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:ezyhr_mobile_apps/module/file/file_service.dart';
+import 'package:ezyhr_mobile_apps/module/leave_request/leave_detail/leave_detail_request.dart';
 import 'package:ezyhr_mobile_apps/module/leave_request/leave_request_service.dart';
 import 'package:ezyhr_mobile_apps/module/leave_request/request/employee_leave_request.dart';
 import 'package:ezyhr_mobile_apps/module/leave_request/response/employee_leave_response.dart';
@@ -14,6 +15,7 @@ import 'package:ezyhr_mobile_apps/shared/services/session_service.dart';
 import 'package:ezyhr_mobile_apps/shared/utils/route_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -627,6 +629,43 @@ class LRequestFormController extends GetxController {
           await leaveRequestService.createLeaveRequest(employeeLeaveRequest);
 
       log('response: $response');
+      for (var i = 0; i < (response.dayCount!); i++) {
+        final leaveDetailRequest = LeaveDetailRequest(
+            id: response.id?.toInt(),
+            docNo: response.docNo,
+            employeeLeaveId: response.employeeId?.toInt(),
+            leaveTypeId: response.leaveTypeId?.toInt(),
+            employeeId: response.employeeId?.toInt(),
+            year: response.year?.toInt(),
+            date: (i == 0)
+                ? DateFormat('yyyy-MM-dd').format(response.startDate!)
+                : DateFormat('yyyy-MM-dd').format(response.startDate!.add(
+                    Duration(days: i),
+                  )),
+            leaveType: (response.dayCount! > 2)
+                ? (i == 0)
+                    ? response.startLeaveType?.toInt()
+                    : (i == response.dayCount!)
+                        ? response.endLeaveType?.toInt()
+                        : response.leaveTypeId?.toInt()
+                : 1,
+            dayCount: response.dayCount?.toInt(),
+            remark: response.remark,
+            confirmedBy: response.confirmedBy?.toInt(),
+            status: response.status?.toInt(),
+            createdBy: response.createdBy?.toInt(),
+            createdAt: response.createdAt
+                ?.add(Duration(days: 1))
+                .toUtc()
+                .toIso8601String(),
+            updatedBy: response.updatedBy?.toInt(),
+            updatedAt: response.updatedAt
+                ?.add(Duration(days: 1))
+                .toUtc()
+                .toIso8601String());
+        await leaveRequestService.employeeLeaveDetail(leaveDetailRequest);
+      }
+
       CommonWidget.showNotif('Success', color: Colors.green);
       RouteUtil.back();
     } catch (e) {

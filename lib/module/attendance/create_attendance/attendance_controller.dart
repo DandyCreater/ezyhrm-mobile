@@ -299,7 +299,9 @@ class AttendanceController extends GetxController {
     final profilePic = await sessionService
         .saveImageUrlWithReturn2("${profilePictureResponse}");
 
-    final isFaceSimiliar = await isTheSameFace(imgPath.value, profilePic);
+    final isFaceSimiliar =
+        await attendanceService.startFaceDetection(imgPath.value, profilePic);
+    // await isTheSameFace(imgPath.value, profilePic);
     if (!isFaceSimiliar) {
       CommonWidget.showErrorNotif(
           'Face not similiar to profile picture, try to remove glasses or mask and try again');
@@ -376,7 +378,9 @@ class AttendanceController extends GetxController {
     final profilePic = await sessionService
         .saveImageUrlWithReturn2("${profilePictureResponse}");
 
-    final isFaceSimiliar = await isTheSameFace(imgPath.value, profilePic);
+    // final isFaceSimiliar = await isTheSameFace(imgPath.value, profilePic);
+    final isFaceSimiliar =
+        await attendanceService.startFaceDetection(imgPath.value, profilePic);
     if (!isFaceSimiliar) {
       CommonWidget.showErrorNotif(
           'Face not similiar to profile picture, try to remove glasses or mask and try again');

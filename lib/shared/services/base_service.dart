@@ -41,6 +41,15 @@ class BaseService {
     ),
   );
 
+  static final Dio _dioFormData3 = Dio(
+    BaseOptions(
+      baseUrl: "http://35.247.162.127:5000",
+      // ApiConstant.BASE_URL,
+      connectTimeout: const Duration(seconds: ApiConstant.API_TIMEOUT),
+      headers: formData,
+    ),
+  );
+
   Future<T> _retry<T>(Future<T> Function() request, int retries) async {
     for (int attempt = 0; attempt < retries; attempt++) {
       try {
@@ -149,6 +158,34 @@ class BaseService {
         rethrow;
       }
     }, 10);
+  }
+
+  Future<dynamic> postFormData(
+    String? path, {
+    FormData? body,
+    Map<String, dynamic>? headers,
+    required dynamic Function(dynamic response) responseDecoder,
+    String? url,
+  }) async {
+    // return _retry(() async {
+    Response<dynamic>? result;
+    try {
+      _dioFormData3.options.headers = {
+        Headers.acceptHeader: Headers.multipartFormDataContentType,
+        "Authorization": "Bearer ${storage.read("token") ?? ""}",
+      };
+      result = await _dioFormData3.post(
+        path ?? "",
+        data: body,
+      );
+      return responseDecoder(result.data);
+    } on DioException catch (e) {
+      _handleException(e, path ?? "");
+      rethrow;
+    }
+
+    // }
+    //  10);
   }
 
   Future<dynamic> postForm2(

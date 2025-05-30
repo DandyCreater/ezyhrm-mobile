@@ -16,13 +16,9 @@ class FaceDetectionService {
 
   Future<bool> isFacePresent(String imagePath) async {
     try {
-      log('isFacePresent error 1');
       final inputImage = InputImage.fromFilePath(imagePath);
-      log('isFacePresent error 2');
       final List<Face> faces = await _faceDetector.processImage(inputImage);
-      log('isFacePresent error 3');
       log(faces.length.toString());
-      log('isFacePresent error 4');
       return faces.isNotEmpty;
     } catch (e) {
       // print('Error detecting face: $e');
@@ -65,14 +61,14 @@ class FaceDetectionService {
 
       bool similarHeadRotation = _compareRotation(face1, face2);
       bool similarSize = _compareFaceSize(face1, face2, image1, image2);
-      bool similarSmiling = _compareSmiling(face1, face2);
+      // bool similarSmiling = _compareSmiling(face1, face2);
 
       int matchCount = 0;
       if (similarHeadRotation) matchCount++;
       if (similarSize) matchCount++;
-      if (similarSmiling) matchCount++;
+      // if (similarSmiling) matchCount++;
 
-      return matchCount >= 2;
+      return matchCount >= 1;
     } catch (e) {
       // print('Error in feature comparison: $e');
       log('Error in feature comparison: $e');
